@@ -1,11 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, Image, StatusBar } from 'react-native';
 
 export default function App() {
-  console.log('working here...')
   return (
     <View style={styles.container}>
-      <Text>Welcome to the adventures of Rick and Morty</Text>
+      <Image
+        style={styles.image}
+        source={require('./assets/logo.png')}
+        resizeMode={'contain'}
+      />
     </View>
   );
 }
@@ -13,8 +16,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 5,
+    paddingTop: StatusBar.currentHeight,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
+  image: {
+    width: '100%',
+    maxHeight: 150,
+    padding: 10,
+  }
 });
