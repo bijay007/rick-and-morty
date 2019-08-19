@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Image, StatusBar } from 'react-native';
+import Home from './src/screens/Home';
 
 export default function App() {
   return (
@@ -9,7 +10,8 @@ export default function App() {
         source={require('./assets/logo.png')}
         resizeMode={'contain'}
       />
-    </View>
+      <Home />
+      </View>
   );
 }
 
