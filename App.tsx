@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Image, StatusBar } from 'react-native';
+import {
+  StyleSheet, View, Image, StatusBar,
+} from 'react-native';
 import Home from './src/screens/Home';
 
 export default function App() {
@@ -8,10 +10,10 @@ export default function App() {
       <Image
         style={styles.image}
         source={require('./assets/logo.png')}
-        resizeMode={'contain'}
+        resizeMode="contain"
       />
       <Home />
-      </View>
+    </View>
   );
 }
 
@@ -24,7 +26,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    maxHeight: 150,
+    height: 100,
     padding: 10,
-  }
+  },
 });

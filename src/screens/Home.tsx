@@ -1,27 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View, Text, Image, FlatList, StyleSheet,
-} from 'react-native';
-import { Card, CardItem, Left, Right, Separator } from 'native-base';
+import { View, FlatList, StyleSheet } from 'react-native';
+import Pagination from '../components/Pagination';
+import Character from '../components/Character';
 
-interface CharacterInfo {
+interface ICharacterInfo {
+  id: number,
   name: string,
   status: string,
   image: string
 }
 
 function Home() {
-  const [isLoading, fetching] = useState(true);
+  const [isLoading, fetching] = useState<boolean>(true);
+  const [currentPage, goToPage] = useState<number>(1);
   const [characterList, getList] = useState([]);
   useEffect(() => {
-    getCharacters()
-  }, [characterList]);
+    getCharacters(currentPage);
+  }, [currentPage]);
 
-  const getCharacters = async () => {
+  const getCharacters = async (page) => {
     try {
-      const response = await fetch('https://rickandmortyapi.com/api/character/');
+      const response = await fetch(`https://rickandmortyapi.com/api/character/?page=${page}`);
       const json = await response.json();
-      const data: [CharacterInfo] = json.results.map(({ name, status, image }) => ({ name, status, image }));
+      const data: [ICharacterInfo] = json.results.map(({
+        id, name, status, image,
+      }) => ({
+        id, name, status, image,
+      }));
       fetching(false);
       getList(data);
     } catch (err) {
@@ -30,34 +35,25 @@ function Home() {
   };
 
   return !isLoading && (
-     <View style={styles.wrapper}>
-      <FlatList
-        data={characterList}
-        renderItem={({ item }) => (
-          <Card transparent>
-            <CardItem>
-              <Left style={{flex: 2}}>
-                <Image
-                  style={styles.image}
-                  source={{uri: item.image}}
-                  resizeMode={'cover'}
-                />
-              </Left>
-              <Right style={styles.right}>
-                <Text>{item.name}</Text>
-                <Text>Status: {item.status}</Text>
-              </Right>
-            </CardItem>
-          </Card>
-        )}
-        keyExtractor={(item, index) => `${item.name}_${index}`}
-        removeClippedSubviews={true}
-        initialNumToRender={5}
-        maxToRenderPerBatch={5}
-        windowSize={19}
-        ItemSeparatorComponent={() => <Separator style={{height: 4}} />}
-      />
-    </View>
+  <View style={styles.wrapper}>
+    <FlatList
+      numColumns={2}
+      showsVerticalScrollIndicator={false}
+      data={characterList}
+      renderItem={({ item }) => <Character item={item} />}
+      keyExtractor={(item, index) => `${item.id}_${index}`}
+      initialNumToRender={6}
+      removeClippedSubviews
+      ListFooterComponent={(
+        <Pagination
+          data={characterList}
+          currentPage={currentPage}
+          onPress={(page) => goToPage(page)}
+        />
+)}
+      ItemSeparatorComponent={() => <View style={styles.separator} />}
+    />
+  </View>
   );
 }
 
@@ -68,13 +64,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
   },
-  right: {
-   flex: 1,
-   alignItems: 'flex-start',
-   justifyContent: 'space-around',
-  },
-  image: {
-    height: 150,
-    width: 180,
+  separator: {
+    borderBottomWidth: 1.5,
+    borderColor: '#acacac',
   },
 });
