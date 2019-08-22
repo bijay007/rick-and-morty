@@ -35,25 +35,25 @@ function Home() {
   };
 
   return !isLoading && (
-  <View style={styles.wrapper}>
-    <FlatList
-      numColumns={2}
-      showsVerticalScrollIndicator={false}
-      data={characterList}
-      renderItem={({ item }) => <Character item={item} />}
-      keyExtractor={(item, index) => `${item.id}_${index}`}
-      initialNumToRender={6}
-      removeClippedSubviews
-      ListFooterComponent={(
-        <Pagination
-          data={characterList}
-          currentPage={currentPage}
-          onPress={(page) => goToPage(page)}
-        />
-)}
-      ItemSeparatorComponent={() => <View style={styles.separator} />}
-    />
-  </View>
+    <View style={styles.wrapper}>
+      <FlatList
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        data={characterList}
+        renderItem={({ item }) => <Character item={item} />}
+        keyExtractor={(item, index) => `${item.id}_${index}`}
+        initialNumToRender={6}
+        removeClippedSubviews
+        ListFooterComponent={(
+          <Pagination
+            data={characterList}
+            currentPage={currentPage}
+            onPress={(page) => goToPage(page)}
+          />
+        )}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+      />
+    </View>
   );
 }
 
