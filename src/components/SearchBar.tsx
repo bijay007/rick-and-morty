@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Container, Header, Item, Input, Icon, Button, Text,
 } from 'native-base';
+import { AppContext } from '../context/AppContext';
 import { debounce } from '../common/utils/helpers';
 
-const SearchBar = (props) => {
+const SearchBar = () => {
+  const [state, setState] = useContext(AppContext);
   const searchCharacter = async (text) => {
     if (text) {
       const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${text}`);
       const json = await response.json();
-      const data = json.results.map(({
-        id, name, status, image,
-      }) => ({
-        id, name, status, image,
-      }));
-      props.filteredList(data);
+      if (json.results) {
+        const data = json.results.map(({
+          id, name, status, image,
+        }) => ({
+          id, name, status, image,
+        }));
+        const newState = {
+          filteredList: data,
+          pages: json.info.pages
+        }
+        setState((state) => ({ ...state, ...newState }));
+      }
     }
   };
   const filterCharacter = debounce(searchCharacter, 1000);

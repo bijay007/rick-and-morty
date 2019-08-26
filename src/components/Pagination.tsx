@@ -7,9 +7,9 @@ const Pagination = (props) => {
   const setCurrentPage = (page) => props.onPress(page);
   const createPageIndex = () => {
     const pageIndex = [];
-    const pageCount = 25;
+    const { totalPages } = props;
     const { currentPage } = props;
-    for (let index = 1; index <= pageCount; index++) {
+    for (let index = 1; index <= totalPages; index++) {
       pageIndex.push(
         <TouchableOpacity onPress={() => setCurrentPage(index)}>
           <View style={styles.page_number}>

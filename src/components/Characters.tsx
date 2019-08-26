@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { View, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
+import { AppContext } from '../context/AppContext';
 import Pagination from './Pagination';
 import Character from './Character';
 
@@ -11,10 +12,11 @@ interface ICharacterInfo {
 }
 
 const Characters = () => {
+  const [state] = useContext(AppContext);
   const [isLoading, fetching] = useState<boolean>(true);
   const [currentPage, goToPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
   const [allCharacterList, setCharacterList] = useState([]);
-  const [filteredList, filterCharacter] = useState([]);
 
   useEffect(() => {
     getCharacters(currentPage);
@@ -31,13 +33,18 @@ const Characters = () => {
       }));
       fetching(false);
       setCharacterList(data);
+      setTotalPages(json.info.pages);
     } catch (err) {
       console.error(err);
     }
   };
 
   if (!isLoading) {
-    const dataList = filteredList.length > 0 ? filteredList : allCharacterList;
+    const filteredList = state['filteredList'];
+    const dataList = filteredList.length > 0
+      ? filteredList
+      : allCharacterList;
+    const pageCount = filteredList.length ? state['pages'] : totalPages;
     return (
       <View style={styles.wrapper}>
         <FlatList
@@ -51,7 +58,7 @@ const Characters = () => {
           ListFooterComponent={(
             <Pagination
               data={dataList}
-              totalItems={dataList.length}
+              totalPages={pageCount}
               currentPage={currentPage}
               onPress={(page) => goToPage(page)}
             />
@@ -61,6 +68,11 @@ const Characters = () => {
       </View>
     );
   }
+  return (
+    <View style={styles.loading}>
+      <ActivityIndicator />
+    </View>
+  )
 };
 
 export default Characters;
@@ -73,5 +85,9 @@ const styles = StyleSheet.create({
   separator: {
     borderBottomWidth: 1.5,
     borderColor: '#acacac',
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });
