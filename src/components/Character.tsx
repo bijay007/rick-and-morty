@@ -1,8 +1,10 @@
 import React from 'react';
 import {
-  View, Text, Image, StyleSheet,
+  Text, Image, StyleSheet,
 } from 'react-native';
-import { Card, Grid, Row, Col } from 'native-base';
+import {
+  Card, Grid, Row, Col,
+} from 'native-base';
 
 const Character = (prop) => {
   const {
@@ -28,7 +30,8 @@ const Character = (prop) => {
           </Row>
           <Row size={1} style={styles.row}>
             <Text style={styles.text}>
-              Status:&nbsp;{status}
+              Status:&nbsp;
+              {status}
             </Text>
           </Row>
         </Col>
