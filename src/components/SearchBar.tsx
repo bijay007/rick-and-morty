@@ -6,7 +6,7 @@ import { AppContext } from '../context/AppContext';
 import { debounce } from '../common/utils/helpers';
 
 const SearchBar = () => {
-  const [state, setState] = useContext(AppContext);
+  const [_, dispatch] = useContext(AppContext);
   const searchCharacter = async (text) => {
     if (text) {
       const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${text}`);
@@ -17,11 +17,13 @@ const SearchBar = () => {
         }) => ({
           id, name, status, image,
         }));
-        const newState = {
-          filteredList: data,
-          pages: json.info.pages
-        }
-        setState((state) => ({ ...state, ...newState }));
+        dispatch({
+          type: 'UPDATE_LIST',
+          payload: {
+            data: data,
+            pages: json.info.pages,
+          },
+        });
       }
     }
   };

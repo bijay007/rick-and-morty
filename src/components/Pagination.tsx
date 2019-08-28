@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, FlatList,
+  Text, StyleSheet, TouchableOpacity, FlatList, ScrollView,
 } from 'react-native';
 
 const Pagination = (props) => {
@@ -11,17 +11,18 @@ const Pagination = (props) => {
     const { currentPage } = props;
     for (let index = 1; index <= totalPages; index++) {
       pageIndex.push(
-        <TouchableOpacity onPress={() => setCurrentPage(index)}>
-          <View style={styles.page_number}>
-            <Text style={
-              index === currentPage
-                ? styles.active_page
-                : null
-            }
-            >
-              {index}
-            </Text>
-          </View>
+        <TouchableOpacity
+          onPress={() => setCurrentPage(index)}
+          style={styles.page}
+        >
+          <Text style={
+            index === currentPage
+              ? styles.active_page
+              : null
+          }
+          >
+            {index}
+          </Text>
         </TouchableOpacity>,
       );
     }
@@ -29,7 +30,7 @@ const Pagination = (props) => {
   };
 
   return (
-    <View style={styles.pagination}>
+    <ScrollView contentContainerStyle={styles.pagination}>
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -38,7 +39,7 @@ const Pagination = (props) => {
         renderItem={({ item }) => item}
         removeClippedSubviews
       />
-    </View>
+    </ScrollView>
   );
 };
 
@@ -47,13 +48,14 @@ export default Pagination;
 const styles = StyleSheet.create({
   pagination: {
     flex: 1,
-    padding: 2,
+    paddingVertical: 5,
     height: 50,
+    alignItems: 'center',
   },
-  page_number: {
+  page: {
     flex: 1,
+    padding: 2,
     width: 50,
-    paddingTop: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
