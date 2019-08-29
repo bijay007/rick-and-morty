@@ -52,6 +52,7 @@ const Characters = () => {
           data={allCharacterList}
           renderItem={({ item, index }) => <Character item={item} index={index + 1} />}
           keyExtractor={(item, index) => `${item.id}_${index}`}
+          windowSize={17}
           initialNumToRender={8}
           removeClippedSubviews
           ListFooterComponent={(
