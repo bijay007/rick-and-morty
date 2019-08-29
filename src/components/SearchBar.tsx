@@ -15,18 +15,18 @@ const SearchBar = () => {
       dispatch({
         type: 'UPDATE_LIST',
         payload: {
-          pages: pages,
-          character: character
+          pageCount: pages,
+          character,
         },
       });
     } else {
       dispatch({
         type: 'UPDATE_LIST',
         payload: {
-          pages: '',
-          character: ''
+          pageCount: '',
+          character: '',
         },
-      })
+      });
     }
   };
   const filterCharacter = debounce(searchCharacter, 1000);

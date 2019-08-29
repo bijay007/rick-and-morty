@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
+import React, {
+  useState, useEffect, useContext,
+} from 'react';
+import {
+  View, FlatList, StyleSheet, ActivityIndicator,
+} from 'react-native';
 import { ICharacterInfo } from '../interface';
 import { AppContext } from '../context/AppContext';
 import Pagination from './Pagination';
 import Character from './Character';
 
-const Characters = () =>  {
+const Characters = () => {
   const [state] = useContext(AppContext);
   const [isLoading, fetching] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(undefined);
@@ -20,7 +24,7 @@ const Characters = () =>  {
     let fetchUrl;
     character
       ? fetchUrl = `https://rickandmortyapi.com/api/character/?page=${page}&name=${character}`
-      : fetchUrl = `https://rickandmortyapi.com/api/character/?page=${page}`
+      : fetchUrl = `https://rickandmortyapi.com/api/character/?page=${page}`;
     try {
       const response = await fetch(fetchUrl);
       const json = await response.json();
@@ -36,25 +40,25 @@ const Characters = () =>  {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   if (!isLoading) {
-    const { pageCount, character } = state;
+    const { filteredPages, character } = state;
     return (
       <View style={styles.wrapper}>
         <FlatList
           numColumns={2}
           showsVerticalScrollIndicator={false}
           data={allCharacterList}
-          renderItem={({ item }) => <Character item={item} />}
+          renderItem={({ item, index }) => <Character item={item} index={index + 1} />}
           keyExtractor={(item, index) => `${item.id}_${index}`}
           initialNumToRender={8}
           removeClippedSubviews
           ListFooterComponent={(
             <Pagination
               data={allCharacterList}
-              totalPages={ pageCount ? pageCount : totalPages}
-              currentPage={currentPage ? currentPage: 1}
+              totalPages={filteredPages || totalPages}
+              currentPage={currentPage || 1}
               onPress={(page) => getCharacters(page, character)}
               character={character}
             />
@@ -68,7 +72,7 @@ const Characters = () =>  {
     <View style={styles.loading}>
       <ActivityIndicator />
     </View>
-  )
+  );
 };
 
 export default Characters;

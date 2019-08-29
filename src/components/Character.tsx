@@ -7,31 +7,29 @@ import {
 } from 'native-base';
 
 const Character = (prop) => {
-  const {
-    name, image, status, id,
-  } = prop.item;
+  const { item, index } = prop;
   return (
     <Grid style={[
       styles.wrapper,
-      id % 2 && styles.separator,
+      index % 2 && styles.separator,
     ]}
     >
       <Card transparent>
         <Col size={1}>
           <Row size={2} style={styles.row}>
-            <Text style={styles.text}>{name}</Text>
+            <Text style={styles.text}>{item.name}</Text>
           </Row>
           <Row size={5}>
             <Image
               style={styles.image}
-              source={{ uri: image }}
+              source={{ uri: item.image }}
               resizeMode="contain"
             />
           </Row>
           <Row size={1} style={styles.row}>
             <Text style={styles.text}>
               Status:&nbsp;
-              {status}
+              {item.status}
             </Text>
           </Row>
         </Col>

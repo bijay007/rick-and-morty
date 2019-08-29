@@ -8,17 +8,18 @@ const Pagination = (props) => {
   const createPageIndex = () => {
     const pageIndex = [];
     const { totalPages, currentPage, character } = props;
-    for (let index = 1; index <= totalPages; index++) {
+    for (let index = 1; index <= totalPages; index += 1) {
       pageIndex.push(
         <TouchableOpacity
           onPress={() => setCurrentPage(index, character)}
           style={styles.page}
         >
-          <Text style={
+          <Text style={[
+            styles.page_number,
             index === currentPage
               ? styles.active_page
-              : null
-          }
+              : null,
+          ]}
           >
             {index}
           </Text>
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 5,
     height: 50,
+    backgroundColor: '#505050',
     alignItems: 'center',
   },
   page: {
@@ -57,6 +59,9 @@ const styles = StyleSheet.create({
     width: 50,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  page_number: {
+    color: '#fff',
   },
   active_page: {
     color: '#3be1c5',
