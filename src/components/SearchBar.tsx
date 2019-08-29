@@ -7,24 +7,26 @@ import { debounce } from '../common/utils/helpers';
 
 const SearchBar = () => {
   const [_, dispatch] = useContext(AppContext);
-  const searchCharacter = async (text) => {
-    if (text) {
-      const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${text}`);
+  const searchCharacter = async (character) => {
+    if (character) {
+      const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${character}`);
       const json = await response.json();
-      if (json.results) {
-        const data = json.results.map(({
-          id, name, status, image,
-        }) => ({
-          id, name, status, image,
-        }));
-        dispatch({
-          type: 'UPDATE_LIST',
-          payload: {
-            data: data,
-            pages: json.info.pages,
-          },
-        });
-      }
+      const { pages } = json.info;
+      dispatch({
+        type: 'UPDATE_LIST',
+        payload: {
+          pages: pages,
+          character: character
+        },
+      });
+    } else {
+      dispatch({
+        type: 'UPDATE_LIST',
+        payload: {
+          pages: '',
+          character: ''
+        },
+      })
     }
   };
   const filterCharacter = debounce(searchCharacter, 1000);

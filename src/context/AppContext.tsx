@@ -1,15 +1,15 @@
 import React, { createContext, useReducer } from 'react';
 
 const intialState = {
-  filteredList: [],
-  pageCount: 0,
+  pageCount: '',
+  character: ''
 };
 const appReducer = (state = intialState, action) => {
   switch (action.type) {
     case 'UPDATE_LIST':
       return {
-        filteredList: action.payload.data,
         pageCount: action.payload.pages,
+        character: action.payload.character,
       };
     default:
       throw new Error('Use dispatcher for list updates only.');

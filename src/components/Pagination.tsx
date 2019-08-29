@@ -4,15 +4,14 @@ import {
 } from 'react-native';
 
 const Pagination = (props) => {
-  const setCurrentPage = (page) => props.onPress(page);
+  const setCurrentPage = (page, character) => props.onPress(page, character);
   const createPageIndex = () => {
     const pageIndex = [];
-    const { totalPages } = props;
-    const { currentPage } = props;
+    const { totalPages, currentPage, character } = props;
     for (let index = 1; index <= totalPages; index++) {
       pageIndex.push(
         <TouchableOpacity
-          onPress={() => setCurrentPage(index)}
+          onPress={() => setCurrentPage(index, character)}
           style={styles.page}
         >
           <Text style={

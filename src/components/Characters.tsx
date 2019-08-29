@@ -1,26 +1,25 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
-import { ICharacterInfo, ICharacterListState } from '../interface';
+import { ICharacterInfo } from '../interface';
 import { AppContext } from '../context/AppContext';
 import Pagination from './Pagination';
 import Character from './Character';
 
-export default class Characters extends Component<{}, ICharacterListState> {
-  state = {
-    isLoading: true,
-    currentPage: 1,
-    totalPages: 25,
-    allCharacterList: []
-  }
+const Characters = () =>  {
+  const [state] = useContext(AppContext);
+  const [isLoading, fetching] = useState<boolean>(true);
+  const [currentPage, setCurrentPage] = useState<number>(undefined);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [allCharacterList, setCharacterList] = useState([]);
 
-  componentDidMount() {
-    this.getCharacters(0);
-  }
+  useEffect(() => {
+    getCharacters(currentPage, state.character);
+  }, [currentPage, state.character]);
 
-  getCharacters = async (page) => {
+  const getCharacters = async (page? : number, character? : string) => {
     let fetchUrl;
-    page === 0
-      ? fetchUrl = 'https://rickandmortyapi.com/api/character'
+    character
+      ? fetchUrl = `https://rickandmortyapi.com/api/character/?page=${page}&name=${character}`
       : fetchUrl = `https://rickandmortyapi.com/api/character/?page=${page}`
     try {
       const response = await fetch(fetchUrl);
@@ -30,59 +29,49 @@ export default class Characters extends Component<{}, ICharacterListState> {
       }) => ({
         id, name, status, image,
       }));
-      this.setState({
-        isLoading: false,
-        allCharacterList: data,
-        currentPage: page,
-        totalPages: json.info.pages
-      });
+      fetching(false);
+      setCurrentPage(page);
+      setTotalPages(json.info.pages);
+      setCharacterList(data);
     } catch (err) {
       console.error(err);
     }
   }
 
-  render() {
-    const { isLoading, totalPages, currentPage, allCharacterList } = this.state;
-    if (!isLoading) {
-      return (
-        <AppContext.Consumer>
-          {
-            ([value]) => {
-              const { filteredList, pageCount } = value;
-              return (
-                <View style={styles.wrapper}>
-                  <FlatList
-                    numColumns={2}
-                    showsVerticalScrollIndicator={false}
-                    data={filteredList.length ? filteredList : allCharacterList}
-                    renderItem={({ item }) => <Character item={item} />}
-                    keyExtractor={(item, index) => `${item['id']}_${index}`}
-                    initialNumToRender={8}
-                    removeClippedSubviews
-                    ListFooterComponent={(
-                      <Pagination
-                        data={filteredList.length ? filteredList : allCharacterList}
-                        totalPages={filteredList.length ? pageCount : totalPages}
-                        currentPage={filteredList.length ? 1 : currentPage} // TODO: filtered list paging is different than normal
-                        onPress={(page) => this.getCharacters(page)}
-                      />
-                    )}
-                    ItemSeparatorComponent={() => <View style={styles.separator} />}
-                  />
-                </View>
-              )
-            }
-          }
-        </AppContext.Consumer>
-      );
-    }
+  if (!isLoading) {
+    const { pageCount, character } = state;
     return (
-      <View style={styles.loading}>
-        <ActivityIndicator />
+      <View style={styles.wrapper}>
+        <FlatList
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          data={allCharacterList}
+          renderItem={({ item }) => <Character item={item} />}
+          keyExtractor={(item, index) => `${item.id}_${index}`}
+          initialNumToRender={8}
+          removeClippedSubviews
+          ListFooterComponent={(
+            <Pagination
+              data={allCharacterList}
+              totalPages={ pageCount ? pageCount : totalPages}
+              currentPage={currentPage ? currentPage: 1}
+              onPress={(page) => getCharacters(page, character)}
+              character={character}
+            />
+          )}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+        />
       </View>
-    )
+    );
   }
+  return (
+    <View style={styles.loading}>
+      <ActivityIndicator />
+    </View>
+  )
 };
+
+export default Characters;
 
 const styles = StyleSheet.create({
   wrapper: {
