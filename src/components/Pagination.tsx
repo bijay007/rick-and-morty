@@ -8,6 +8,7 @@ const Pagination = (props) => {
   const createPageIndex = () => {
     const pageIndex = [];
     const { totalPages, currentPage, character } = props;
+    const currentPageOffset = currentPage > totalPages ? 1 : currentPage;
     for (let index = 1; index <= totalPages; index += 1) {
       pageIndex.push(
         <TouchableOpacity
@@ -16,7 +17,7 @@ const Pagination = (props) => {
         >
           <Text style={[
             styles.page_number,
-            index === currentPage
+            index === currentPageOffset
               ? styles.active_page
               : null,
           ]}

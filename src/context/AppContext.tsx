@@ -2,6 +2,7 @@ import React, { createContext, useReducer } from 'react';
 
 const intialState = {
   filteredPages: '',
+  initialFilterPage: '',
   character: '',
 };
 const appReducer = (state = intialState, action) => {
@@ -10,6 +11,7 @@ const appReducer = (state = intialState, action) => {
       return {
         ...state,
         filteredPages: action.payload.pageCount,
+        initialFilterPage: action.payload.initialPage,
         character: action.payload.character,
       };
     default:

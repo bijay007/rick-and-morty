@@ -3,7 +3,7 @@ import {
   Container, Header, Item, Input, Icon, Button, Text,
 } from 'native-base';
 import { AppContext } from '../context/AppContext';
-import { debounce } from '../common/utils/helpers';
+import { debounce } from '../common/utils';
 
 const SearchBar = () => {
   const [_, dispatch] = useContext(AppContext);
@@ -11,11 +11,12 @@ const SearchBar = () => {
     if (character) {
       const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${character}`);
       const json = await response.json();
-      const { pages } = json.info;
+      const { pages } = json.info || 0;
       dispatch({
         type: 'UPDATE_LIST',
         payload: {
           pageCount: pages,
+          initialPage: 1,
           character,
         },
       });
@@ -24,6 +25,7 @@ const SearchBar = () => {
         type: 'UPDATE_LIST',
         payload: {
           pageCount: '',
+          initialPage: '',
           character: '',
         },
       });

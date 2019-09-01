@@ -3,7 +3,7 @@ import { StatusBar, Dimensions, StyleSheet } from 'react-native';
 import { Grid, Col, Row } from 'native-base';
 import { AppProvider } from '../context/AppContext';
 import Header from '../components/Header';
-import Characters from '../components/Characters';
+import CharacterList from '../components/CharacterList';
 
 function Home() {
   const [screenInfo, setScreenInfo] = useState(Dimensions.get('screen'));
@@ -27,7 +27,7 @@ function Home() {
             <Header />
           </Row>
           <Row size={currentScreenInfo.isLandscape ? 6 : 8}>
-            <Characters />
+            <CharacterList />
           </Row>
         </Col>
       </Grid>

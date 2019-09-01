@@ -6,7 +6,7 @@ import {
   Card, Grid, Row, Col,
 } from 'native-base';
 
-const Character = (prop) => {
+const CharacterCard = (prop) => {
   const { item, index } = prop;
   return (
     <Grid style={[
@@ -38,7 +38,7 @@ const Character = (prop) => {
   );
 };
 
-export default Character;
+export default CharacterCard;
 
 const styles = StyleSheet.create({
   wrapper: {
