@@ -23,7 +23,9 @@ const CharacterCard = (prop) => {
             <Image
               style={styles.image}
               source={{ uri: item.image }}
+              accessibilityLabel={`image of ${item.name}`}
               resizeMode="contain"
+              resizeMethod="scale"
             />
           </Row>
           <Row size={1} style={styles.row}>

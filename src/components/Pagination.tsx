@@ -1,4 +1,5 @@
 import React from 'react';
+import * as Haptics from 'expo-haptics';
 import {
   Text, StyleSheet, TouchableOpacity, FlatList, ScrollView,
 } from 'react-native';
@@ -13,7 +14,10 @@ const Pagination = (props) => {
     for (let index = 1; index <= totalPages; index += 1) {
       pageIndex.push(
         <TouchableOpacity
-          onPress={() => setCurrentPage(index, character)}
+          onPress={() => {
+            Haptics.selectionAsync();
+            setCurrentPage(index, character);
+          }}
           style={styles.page}
         >
           <Text style={[

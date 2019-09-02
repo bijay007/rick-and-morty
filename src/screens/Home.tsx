@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, Dimensions, StyleSheet, View } from 'react-native';
+import {
+  StatusBar, Dimensions, StyleSheet, View,
+} from 'react-native';
 import { AppProvider } from '../context/AppContext';
 import Header from '../components/Header';
 import CharacterList from '../components/CharacterList';
@@ -14,18 +16,18 @@ function Home() {
     return () => Dimensions.removeEventListener('change', onOrientationChange);
   });
 
-  const isLandscape = screenInfo.width > screenInfo.height
+  const isLandscape = screenInfo.width > screenInfo.height;
   const landscapeHeight = {
-    height: screenInfo.height * 0.35
-  }
+    height: screenInfo.height * 0.35,
+  };
   const portraitHeight = {
-    height: screenInfo.height * 0.2
-  }
+    height: screenInfo.height * 0.2,
+  };
 
   return (
     <AppProvider>
       <View style={styles.container}>
-        <View style={isLandscape ? landscapeHeight : portraitHeight } >
+        <View style={isLandscape ? landscapeHeight : portraitHeight}>
           <Header />
         </View>
         <View style={{ flex: 1 }}>

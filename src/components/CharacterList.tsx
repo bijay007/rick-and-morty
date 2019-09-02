@@ -66,7 +66,6 @@ const CharacterList = () => {
           removeClippedSubviews
           ListFooterComponent={(
             <Pagination
-              data={allCharacterList}
               totalPages={filteredPages || totalPages}
               currentPage={currentPage}
               onPress={(page) => getCharacters(page, character)}
