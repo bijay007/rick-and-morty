@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {
-  Container, Header, Item, Input, Icon, Button, Text,
+  Container, Header, Item, Input, Icon,
 } from 'native-base';
 import { AppContext } from '../context/AppContext';
 import { debounce } from '../common/utils';
@@ -41,9 +41,6 @@ const SearchBar = () => {
           <Input placeholder="Search" onChangeText={(text) => filterCharacter(text)} />
           <Icon name="ios-people" />
         </Item>
-        <Button transparent onPress={() => {}}>
-          <Text>Search</Text>
-        </Button>
       </Header>
     </Container>
   );

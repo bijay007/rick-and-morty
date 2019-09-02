@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, Dimensions, StyleSheet } from 'react-native';
-import { Grid, Col, Row } from 'native-base';
+import { StatusBar, Dimensions, StyleSheet, View } from 'react-native';
 import { AppProvider } from '../context/AppContext';
 import Header from '../components/Header';
 import CharacterList from '../components/CharacterList';
@@ -14,23 +13,25 @@ function Home() {
     Dimensions.addEventListener('change', onOrientationChange);
     return () => Dimensions.removeEventListener('change', onOrientationChange);
   });
-  const currentScreenInfo = {
-    ...screenInfo,
-    isLandscape: screenInfo.width > screenInfo.height,
-  };
+
+  const isLandscape = screenInfo.width > screenInfo.height
+  const landscapeHeight = {
+    height: screenInfo.height * 0.35
+  }
+  const portraitHeight = {
+    height: screenInfo.height * 0.2
+  }
 
   return (
     <AppProvider>
-      <Grid style={styles.container}>
-        <Col>
-          <Row size={currentScreenInfo.isLandscape ? 4 : 2}>
-            <Header />
-          </Row>
-          <Row size={currentScreenInfo.isLandscape ? 6 : 8}>
-            <CharacterList />
-          </Row>
-        </Col>
-      </Grid>
+      <View style={styles.container}>
+        <View style={isLandscape ? landscapeHeight : portraitHeight } >
+          <Header />
+        </View>
+        <View style={{ flex: 1 }}>
+          <CharacterList />
+        </View>
+      </View>
     </AppProvider>
   );
 }
