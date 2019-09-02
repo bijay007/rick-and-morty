@@ -4,7 +4,7 @@ import React, {
 import {
   View, FlatList, StyleSheet, ActivityIndicator,
 } from 'react-native';
-import { ICharacterInfo } from '../interface';
+import { ICharacterInfo } from '../interfaces';
 import { AppContext } from '../context/AppContext';
 import fetchCharacters from '../common/api';
 import Pagination from './Pagination';
@@ -19,7 +19,7 @@ const CharacterList = () => {
 
   useEffect(() => { // On Component Mount
     getCharacters();
-  }, [])
+  }, []);
 
   useEffect(() => { // On Component Updates
     const { character } = state;
@@ -37,7 +37,7 @@ const CharacterList = () => {
         id, name, status, image,
       }));
       fetching(false);
-      setCurrentPage(page || 1)
+      setCurrentPage(page || 1);
       setTotalPages(response.info.pages);
       setCharacterList(data);
       return;
@@ -45,8 +45,8 @@ const CharacterList = () => {
     setCharacterList([
       {
         name: 'No character found.',
-        status: 404
-      }
+        status: 404,
+      },
     ]);
     setTotalPages(0);
   };
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     width: '100%',
-    height: '100%'
+    height: '100%',
   },
   separator: {
     borderBottomWidth: 1.5,

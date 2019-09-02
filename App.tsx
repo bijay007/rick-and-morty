@@ -7,9 +7,12 @@ interface IState {
   loading: boolean
 }
 
-export default class App extends Component {
-  state: IState = {
-    loading: true,
+export default class App extends Component<{}, IState> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+    };
   }
 
   async componentDidMount() {

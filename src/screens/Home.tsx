@@ -8,7 +8,7 @@ import CharacterList from '../components/CharacterList';
 function Home() {
   const [screenInfo, setScreenInfo] = useState(Dimensions.get('screen'));
   useEffect(() => {
-    const onOrientationChange = data => {
+    const onOrientationChange = (data) => {
       setScreenInfo(data.screen);
     };
     Dimensions.addEventListener('change', onOrientationChange);

@@ -7,21 +7,19 @@ const fetchCharacters = async (page: number, character: string, filterParams: an
   } catch (err) {
     return new Error(err);
   }
-}
+};
 
 const getFetchUrl = (page, character, filterParams) => {
   if (character) {
-    let currentPage;
-    page <= filterParams.filteredPages
-      ? currentPage = page
-      : currentPage = 1;
+    const currentPage = page <= filterParams.filteredPages
+      ? page
+      : 1;
     return `https://rickandmortyapi.com/api/character/?page=${currentPage}&name=${character}`;
-  } else {
-    if (page) {
-      return `https://rickandmortyapi.com/api/character/?page=${page}`;
-    }
-    return 'https://rickandmortyapi.com/api/character';
   }
-}
+  if (page) {
+    return `https://rickandmortyapi.com/api/character/?page=${page}`;
+  }
+  return 'https://rickandmortyapi.com/api/character';
+};
 
 export default fetchCharacters;

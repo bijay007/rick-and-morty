@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Text, StyleSheet, TouchableOpacity, FlatList, ScrollView,
 } from 'react-native';
+import PropTypes from 'prop-types';
 
 const Pagination = (props) => {
   const setCurrentPage = (page, character) => props.onPress(page, character);
@@ -45,6 +46,13 @@ const Pagination = (props) => {
 };
 
 export default Pagination;
+
+Pagination.propTypes = {
+  onPress: PropTypes.func,
+  totalPages: PropTypes.number,
+  currentPage: PropTypes.number,
+  character: PropTypes.string,
+};
 
 const styles = StyleSheet.create({
   pagination: {

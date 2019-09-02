@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from 'react';
+import PropTypes from 'prop-types';
 
 const intialState = {
   filteredPages: '',
@@ -29,6 +30,13 @@ export default function AppProvider(props) {
     </AppContext.Provider>
   );
 }
+
+AppProvider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+};
 
 export {
   AppContext, AppProvider,
